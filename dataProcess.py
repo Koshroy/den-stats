@@ -14,8 +14,9 @@ def main():
             
         ds = DataSet(lowerDataArr)
 
-        classHist = ds.getHistRepr("grade")
-        classHistBinned = BinnedDataDict(classHist["grade"])
+        classHist = ds.getHistRepr("difficulty")
+        print classHist
+        classHistBinned = BinnedDataDict(classHist)
         print classHistBinned
 
 
@@ -28,7 +29,6 @@ def sanitizeDataDict(dataArr):
                 lowerV = v.lower()
             else:
                 lowerV = v
-
             try:
                 finalV = int(lowerV)
             except TypeError:
