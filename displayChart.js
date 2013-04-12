@@ -1,4 +1,4 @@
-var chartNames = ["test", "ab", "cd"];
+var chartNames = ["cs225", "ece110"];
 
 var testData = {
 	labels : ["January","February","March","April","May","June","July"],
@@ -36,7 +36,18 @@ $(document).ready(readyFunc) ;
 function readyFunc() {
 	console.log("uguu");
 	populateChartSelect();
-	spawnCanvases();
+
+	var chartName = $("#chartSelect").val();
+	var chartAllData = genChartData(chartName);
+	spawnCanvas(chartName, chartAllData);
+
+	$("#chartSelect").change(
+		function () {
+			var newChartName = $("#chartSelect").val();
+			spawnCanvas(newChartName, genChartData(newChartName));
+		}
+		);
+	//spawnCanvases();
 }
 
 function populateChartSelect() {
@@ -60,6 +71,27 @@ function spawnCanvases() {
 		chartCanvases[chartNames[i]].displayData(d);
 
 		//paintCanvas(newCanvas, "#"+i+i+i+i+i+i);
+	}
+}
+
+function spawnCanvas(chartName, chartData) {
+	console.log(chartName);
+	console.log(chartData);
+	$("#canvasDiv").html('');
+	for(var i = 0; i < chartData.length; i++) {
+		var newCanvas = document.createElement('canvas');
+		newCanvas.width = cWidth;
+		newCanvas.height = cHeight;
+
+		var newDiv = document.createElement("div")
+		var newPar = $("<p></p>").append($("<h1></h1>").append(chartData[i].title));
+		newDiv.appendChild(newPar[0]);
+		newDiv.appendChild(newCanvas);
+		$("#canvasDiv").append(newDiv);
+
+		chartCanvases[chartName] = new CanvasChart(newCanvas);
+		console.log(chartData[i].data);
+		chartCanvases[chartName].displayData(chartData[i].data);
 	}
 }
 
